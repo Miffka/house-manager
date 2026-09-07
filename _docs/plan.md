@@ -26,6 +26,10 @@ Solving for **forgetting** (tasks slip through the cracks) and **visibility** (n
 - **Telegram bot**
   - Shared group chat, both people interact with the same bot
   - Chosen for: meets you where you already chat, free API, good library support, easiest of the considered options to build
+- **Backend: Django** (ORM, migrations, settings, admin)
+  - The bot is a hand-rolled Telegram Bot API long-poll loop run as a management command: `python manage.py run_bot`
+  - No job queue — reminders and recurring templates are driven by timestamp columns scanned on each loop pass
+  - Django admin doubles as a web view of the pool
 
 ## Core Loop
 1. Task enters the pool (via template or manual add)
