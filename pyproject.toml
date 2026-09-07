@@ -1,7 +1,29 @@
 [project]
 name = "house-assistant"
 version = "0.1.0"
+description = "Chore Manager — a Telegram bot for a two-person household chore pool"
 requires-python = ">=3.12"
 dependencies = [
-    "django>=5.2,<5.3",
+    "django~=5.1",
+    "httpx~=0.27",
+    "django-environ~=0.11",
 ]
+
+[dependency-groups]
+dev = [
+    "ruff",
+    "pytest",
+    "pytest-django",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "config.settings"
+python_files = ["test_*.py", "tests.py"]
+testpaths = ["tests"]

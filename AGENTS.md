@@ -14,4 +14,4 @@ Documents
 
 - `_docs/process.md` - how work is organized
 - `_docs/plan.md` - project scope
-- `_docs/tasks.md` - the backlog
+- `_docs/backlog.md` - the backlog
