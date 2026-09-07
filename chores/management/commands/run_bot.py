@@ -64,21 +64,17 @@ class Command(BaseCommand):
             client.close()
 
     def _service_timers(self, client):
-        """Hook for the reminder/template scans (wired up in later tasks)."""
+        """Timestamp-driven work done on every loop pass: spawn due templates,
+        then fire due reminders. No job queue, nothing to rebuild on startup."""
+        from chores.reminders import service_due_reminders
+        from chores.scheduler import spawn_due_templates
+
         now = timezone.now()
         try:
-            from chores.scheduler import spawn_due_templates
-
             spawn_due_templates(client, now)
-        except ImportError:
-            pass
-        except Exception as exc:  # noqa: BLE001
+        except Exception as exc:  # noqa: BLE001 — keep the loop alive
             self.stderr.write(f"spawn_due_templates failed: {exc!r}")
         try:
-            from chores.reminders import service_due_reminders
-
             service_due_reminders(client, now)
-        except ImportError:
-            pass
-        except Exception as exc:  # noqa: BLE001
+        except Exception as exc:  # noqa: BLE001 — keep the loop alive
             self.stderr.write(f"service_due_reminders failed: {exc!r}")
