@@ -1,0 +1,17 @@
+[Unit]
+Description=Chore Manager Telegram bot
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+# Adjust user and paths to your install.
+User=chorebot
+WorkingDirectory=/opt/chore-manager
+EnvironmentFile=/opt/chore-manager/.env
+ExecStart=/usr/bin/env uv run python manage.py run_bot
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
