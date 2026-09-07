@@ -92,19 +92,19 @@ def template_spawned(task):
     return f"Recurring: #{task.id} {task.title} → {who}"
 
 
-def _mention(person):
+def mention(person):
+    """An HTML mention link for a Person-like object (needs a parse_mode of HTML)."""
     from html import escape
 
     return f'<a href="tg://user?id={person.tg_user_id}">{escape(person.display_name)}</a>'
 
 
-def reminder_gentle(assignee, task):
-    return f"{_mention(assignee)}, don't forget: #{task.id} {task.title}."
+def reminder_gentle(assignee_mention, task_id, task_title):
+    return f"{assignee_mention}, don't forget: #{task_id} {task_title}."
 
 
-def reminder_strong(assignee, other, task):
-    tail = f" {_mention(other)}, nudge them?" if other is not None else ""
+def reminder_strong(assignee_mention, other_mention, task_id, task_title):
+    tail = f" {other_mention}, nudge them?" if other_mention else ""
     return (
-        f"{_mention(assignee)}, #{task.id} {task.title} is still open and "
-        f"overdue.{tail}"
+        f"{assignee_mention}, #{task_id} {task_title} is still open and overdue.{tail}"
     )
